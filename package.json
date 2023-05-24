@@ -18,5 +18,8 @@
   "homepage": "https://github.com/TheChaosStar/chaosstar#readme",
   "dependencies": {
     "chaosstar": "^1.0.0"
+  },
+  "bin": {
+    "multiply": "bin/index.js"
   }
 }
