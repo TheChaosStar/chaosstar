@@ -20,6 +20,6 @@
     "chaosstar": "^1.0.0"
   },
   "bin": {
-    "multiply": "bin/index.js"
+    "chaosstar": "bin/index.js"
   }
 }
