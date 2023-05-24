@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/TheChaosStar/chaosstar/issues"
   },
-  "homepage": "https://github.com/TheChaosStar/chaosstar#readme"
+  "homepage": "https://github.com/TheChaosStar/chaosstar#readme",
+  "dependencies": {
+    "chaosstar": "^1.0.0"
+  }
 }
