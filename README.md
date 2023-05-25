@@ -1,5 +1,5 @@
 
 # NPM Project
 
-A litle project for fun
+A little project for fun
 
