@@ -67,9 +67,9 @@ let choise = [
 tab("choise :", choise);
 
 
-stdin.on('data', function(key){
+stdin.on('data', function (key) {
     console.clear();
-        
+
     let reloadChoise = [
         "\033[00m  test 1\033[00m",
         "\033[00m  test 2\033[00m",
@@ -77,28 +77,50 @@ stdin.on('data', function(key){
         "\033[00m  test 4\033[00m"
     ];
 
-    if (key == '\u001B\u005B\u0041') { // up
-        if (choiseSelector == 0) choiseSelector = reloadChoise.length - 1;
-        else choiseSelector--;
-    }
-    if (key == '\u001B\u005B\u0042') { // down
-        if (choiseSelector == reloadChoise.length - 1) choiseSelector = 0;
-        else choiseSelector++;       
+
+    switch (key) {
+        case '\u001B\u005B\u0041':
+            if (choiseSelector == 0) choiseSelector = reloadChoise.length - 1;
+            else choiseSelector--;
+            break;
+
+        case '\u001B\u005B\u0042':
+            if (choiseSelector == reloadChoise.length - 1) choiseSelector = 0;
+            else choiseSelector++;
+            break;
+
+        case '\u0003':
+            process.exit();
+            break;
+
+        case "\n":
+            process.exit();
+            break;
+
+        default:
+            break;
     }
 
-    if (key == '\ue007') {
-        process.exit();
-    }
+    /*
+        if (key == '\u001B\u005B\u0041') { // up
+            if (choiseSelector == 0) choiseSelector = reloadChoise.length - 1;
+            else choiseSelector--;
+        }
+        if (key == '\u001B\u005B\u0042') { // down
+            if (choiseSelector == reloadChoise.length - 1) choiseSelector = 0;
+            else choiseSelector++;       
+        }
     
-    if (key == '\u0003') { process.exit(); }    // ctrl-c
-    
-    
+        
+        if (key == '\u0003') { process.exit(); }    // ctrl-c
+      */
+
     reloadChoise[choiseSelector] = reloadChoise[choiseSelector].replace("\033[00m ", "\033[34m>");
-    
+
     console.log(header + "\n\n");
 
     tab("choise :", reloadChoise);
-    
+
 });
 
 
