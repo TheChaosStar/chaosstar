@@ -11,6 +11,11 @@ const header = `
 `;
 console.log(header + "\n\n");
 
+const readline = require('readline');
+
+readline.emitKeypressEvents(process.stdin);
+if (process.stdin.isTTY) process.stdin.setRawMode(true);
+
 function tab(title, values) {
 
     let val = [...values];
@@ -52,75 +57,45 @@ function tab(title, values) {
 
 }
 
-var stdin = process.stdin;
-stdin.setRawMode(true);
-stdin.resume();
-stdin.setEncoding('utf8');
-
 let choiseSelector = 0;
 let choise = [
     "\033[34m> test 1\033[00m",
     "\033[00m  test 2\033[00m",
     "\033[00m  test 3\033[00m",
-    "\033[00m  test 4\033[00m"
+    "\033[00m  Exit\033[00m"
 ];
 tab("choise :", choise);
 
-
-stdin.on('data', function (key) {
+process.stdin.on("keypress", (str, key) => {
     console.clear();
 
     let reloadChoise = [
         "\033[00m  test 1\033[00m",
         "\033[00m  test 2\033[00m",
         "\033[00m  test 3\033[00m",
-        "\033[00m  test 4\033[00m"
+        "\033[00m  Exit\033[00m"
     ];
-
-
-    switch (key) {
-        case '\u001B\u005B\u0041':
-            if (choiseSelector == 0) choiseSelector = reloadChoise.length - 1;
-            else choiseSelector--;
-            break;
-
-        case '\u001B\u005B\u0042':
-            if (choiseSelector == reloadChoise.length - 1) choiseSelector = 0;
-            else choiseSelector++;
-            break;
-
-        case '\u0003':
-            process.exit();
-            break;
-
-        case "\n":
-            process.exit();
-            break;
-
-        default:
-            break;
-    }
-
-    /*
-        if (key == '\u001B\u005B\u0041') { // up
-            if (choiseSelector == 0) choiseSelector = reloadChoise.length - 1;
-            else choiseSelector--;
-        }
-        if (key == '\u001B\u005B\u0042') { // down
-            if (choiseSelector == reloadChoise.length - 1) choiseSelector = 0;
-            else choiseSelector++;       
-        }
     
-        
-        if (key == '\u0003') { process.exit(); }    // ctrl-c
-      */
+    //if (key.ctrl &&  key.name == "c") process.exit();
+    if (key.name == "return") {
+        if (choiseSelector == 3) process.exit();
+        if (choiseSelector == 2) console.log("test 3");
+        if (choiseSelector == 1) console.log("test 2");
+        if (choiseSelector == 0) console.log("test 1");
+    }
+    if (key.name == "up") {
+        if (choiseSelector == 0) choiseSelector = reloadChoise.length - 1;
+        else choiseSelector--;
+    }   
+    if (key.name == "down") {
+        if (choiseSelector == reloadChoise.length - 1) choiseSelector = 0;
+        else choiseSelector++;
+    }  
+
 
     reloadChoise[choiseSelector] = reloadChoise[choiseSelector].replace("\033[00m ", "\033[34m>");
 
     console.log(header + "\n\n");
 
     tab("choise :", reloadChoise);
-
 });
-
-
