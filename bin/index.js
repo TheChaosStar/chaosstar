@@ -1,5 +1,7 @@
 #! /usr/bin/env node
 
+const sapin = require("./sapin");
+
 const header = `
     ▄▀▀▄    ▄▀▀▄  ▄▀▀█▄▄▄▄  ▄▀▀▀▀▄     ▄▀▄▄▄▄   ▄▀▀▀▀▄   ▄▀▀▄ ▄▀▄  ▄▀▀█▄▄▄▄ 
     █   █    ▐  █ ▐  ▄▀   ▐ █    █     █ █    ▌ █      █ █  █ ▀  █ ▐  ▄▀   ▐ 
@@ -61,7 +63,7 @@ let choiseSelector = 0;
 let choise = [
     "\033[34m> test 1\033[00m",
     "\033[00m  test 2\033[00m",
-    "\033[00m  test 3\033[00m",
+    "\033[00m  Show Sapin\033[00m",
     "\033[00m  Exit\033[00m"
 ];
 tab("choise :", choise);
@@ -72,30 +74,33 @@ process.stdin.on("keypress", (str, key) => {
     let reloadChoise = [
         "\033[00m  test 1\033[00m",
         "\033[00m  test 2\033[00m",
-        "\033[00m  test 3\033[00m",
+        "\033[00m  Show Sapin\033[00m",
         "\033[00m  Exit\033[00m"
     ];
-    
-    //if (key.ctrl &&  key.name == "c") process.exit();
-    if (key.name == "return") {
-        if (choiseSelector == 3) process.exit();
-        if (choiseSelector == 2) console.log("test 3");
-        if (choiseSelector == 1) console.log("test 2");
-        if (choiseSelector == 0) console.log("test 1");
-    }
-    if (key.name == "up") {
-        if (choiseSelector == 0) choiseSelector = reloadChoise.length - 1;
-        else choiseSelector--;
-    }   
+
+    if (key.ctrl && key.name == "c") process.exit();
+    if (key.name == "return") {action(choiseSelector); return;}
+        if (key.name == "up") {
+            if (choiseSelector == 0) choiseSelector = reloadChoise.length - 1;
+            else choiseSelector--;
+        }
     if (key.name == "down") {
         if (choiseSelector == reloadChoise.length - 1) choiseSelector = 0;
         else choiseSelector++;
-    }  
+    }
 
 
     reloadChoise[choiseSelector] = reloadChoise[choiseSelector].replace("\033[00m ", "\033[34m>");
 
     console.log(header + "\n\n");
 
-    tab("choise :", reloadChoise);
+    tab("choice :", reloadChoise);
 });
+
+function action(choice) {
+    if (choice == 3) process.exit();
+    if (choice == 2) sapin.startLoop();
+    if (choice == 1) console.log("test 2");
+    if (choice == 0) console.log("test 1");
+    
+}
